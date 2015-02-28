@@ -1,0 +1,18 @@
+// Tierkreiszeichen.map / 20150228
+// Marianne Spiller <github@spiller.me>
+// Vgl. http://de.wikipedia.org/wiki/Tierkreiszeichen#Die_zw.C3.B6lf_Tierkreiszeichen_des_Zodiaks
+// openhab-1.7.0-SNAPSHOT
+
+Aries=Widder (21. März – 20. April)
+Taurus=Stier (21. April – 21. Mai)
+Gemini=Zwilling (22. Mai – 21. Juni)
+Cancer=Krebs (22. Juni – 22. Juli)
+Leo=Löwe (23. Juli – 22. August)
+Virgo=Jungfrau (23. August – 22. September)
+Libra=Waage (23. September – 22. Oktober)
+Scorpio=Skorpion (23. Oktober – 22. November)
+Sagittarius=Schütze (23. November – 20. Dezember)
+Capricorn=Steinbock (21. Dezember – 19. Januar)
+Aquarius=Wassermann (20. Januar – 18. Februar)
+Pisces=Fische (19. Februar – 20. März)
+-=-Fehler bei der Initialisierung-
