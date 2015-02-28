@@ -1,0 +1,7 @@
+// Anwesenheit.map / 20150228
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+
+true=Anwesend
+false=Nicht anwesend
+-=-Fehler bei der Initialisierung-
