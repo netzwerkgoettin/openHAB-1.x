@@ -1,0 +1,10 @@
+// Jahreszeit.map / 20150228
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+// Vgl. http://de.wikipedia.org/wiki/Jahreszeit#Meteorologische_Jahreszeiten
+
+Spring=Frühling
+Summer=Sommer
+Autumn=Herbst
+Winter=Winter
+-=-Fehler bei der Initialisierung-
