@@ -1,0 +1,14 @@
+// Mond.map / 20150228
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+// Vgl. http://de.wikipedia.org/wiki/Mondphase#Symbole
+
+New=Neumond
+First\u0020Quarter=Zunehmender Sichelmond (Neulicht)
+Waxing\u0020Crescent=Zunehmender Halbmond (erstes Viertel)
+Waxing\u0020Gibbous=Zunehmender Mond
+Full=Vollmond (zweites Viertel)
+Waning\u0020Gibbous=Abnehmender Mond
+Third\u0020Quarter=Abnehmender Halbmond (letztes Viertel)
+Waning\u0020Crescent=Abnehmender Sichelmond (Altlicht)
+-=-Fehler bei der Initialisierung-
