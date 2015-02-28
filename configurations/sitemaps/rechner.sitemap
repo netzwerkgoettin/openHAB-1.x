@@ -1,0 +1,10 @@
+// rechner.sitemap / 20150227
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+
+sitemap default label="Mein Haus"
+{
+  Frame {
+    Group item=Rechner
+  }
+}
