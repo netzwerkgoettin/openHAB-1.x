@@ -1,0 +1,9 @@
+// rechner.items / 20150227
+// Marianne Spiller <github@spiller.me>
+// Tested: openhab-1.7.0-SNAPSHOT
+// Required: org.openhab.binding.exec-$VERSION.jar, org.openhab.binding.networkhealth-$VERSION.jar
+
+Group:Switch:OR(ON, OFF)	Rechner				"Rechner [(%d)]"		<network>		(All)
+
+Switch	Petzi	"Petzi (MacPro)"	(Rechner)	{ nh="petzi", exec="OFF:ssh spillerm@petzi osascript -e 'tell application \"System Events\" to sleep'" }
+Switch	Pingo	"Pingo (iMac)"		(Rechner)	{ nh="pingo", exec="OFF:ssh mane@pingo osascript -e 'tell application \"System Events\" to sleep'" }
