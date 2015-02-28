@@ -1,0 +1,26 @@
+// astro.items / 20150228
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+// Requires: org.openhab.binding.astro-$VERSION.jar
+
+Group		Astro		<sun>		(All)
+
+DateTime	Sonnenaufgang_Time	"Sonnenaufgang [%1$tH:%1$tM]"			<sun>		(Astro)		{ astro="planet=sun, type=rise, property=start" }
+DateTime	Sonnenuntergang_Time	"Sonnenuntergang [%1$tH:%1$tM]"			<sun>		(Astro)		{ astro="planet=sun, type=set, property=end" }
+String		Mondphase		"Mondphase [MAP(Mond.map):%s]"			<moon>		(Astro)		{ astro="planet=moon, type=phase, property=name" }
+String		Sternzeichen		"Sternzeichen [MAP(Tierkreiszeichen.map):%s]"	<colorwheel>	(Astro)		{ astro="planet=sun, type=zodiac, property=sign" }
+String		Jahreszeit		"Jahreszeit [MAP(Jahreszeit.map):%s]"		<sun_clouds>	(Astro)		{ astro="planet=sun, type=season, property=name" }
+
+// Setzt den Switch zur Zeit auf ON, gefolgt von OFF
+// Event genau zum Sonnenaufgang
+Switch		Sonnenaufgang_Event										{ astro="planet=sun, type=rise, property=start" }
+// Event genau zum Sonnenuntergang
+Switch		Sonnenuntergang_Event										{ astro="planet=sun, type=set, property=end" }
+// Event 20min *nach* Sonnenaufgang
+Switch		Sonnenaufgang_20A_Event										{ astro="planet=sun, type=rise, property=start, offset=20" }
+// Event 10min *vor* Sonnenaufgang
+Switch		Sonnenaufgang_10B_Event										{ astro="planet=sun, type=rise, property=start, offset=-10" }
+// Event 20min *nach* Sonnenuntergang
+Switch		Sonnenuntergang_20A_Event									{ astro="planet=sun, type=set, property=end, offset=20" }
+// Event wenn Vollmond ist
+Switch		Vollmond_Event											{ astro="planet=moon, type=phase, property=full" }
