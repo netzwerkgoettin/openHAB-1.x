@@ -1,0 +1,7 @@
+// fenster.items / 20150303
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+
+Group:Contact:OR(OPEN, CLOSED)  Fenster         "Offene Fenster [(%d)]"         <contact>       (All)
+Contact ELW_Schlafzimmer_Fenster        "Fenster ELW Schlafzimmer [MAP(de.map):%s]"     <contact>       (ELW_Schlafzimmer, Fenster)     { homematic="address=LEQ0409512, channel=1, parameter=STATE" }
+Switch  CCU2_ELW_Schlafzimmer_Fenster_Alarm  "Fenster ELW Schlafzimmer zu lange geöffnet [%s]"       <contact>       (ELW_Schlafzimmer,Fenster)      { homematic="variable=ElwSchlafzimmerAlarm" }
