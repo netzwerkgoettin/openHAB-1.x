@@ -1,0 +1,34 @@
+// WaMaTro.items / 20150310
+// Marianne Spiller <github@spiller.me>
+// Devices: HM-ES-PMSw1-Pl / CCU2
+// openhab-1.7.0-SNAPSHOT
+
+// Eine Gruppe, die alle Unterpunkte zum Waschkeller enthaelt
+Group		Waschkeller		"Waschkeller"			<cellar>       (All)
+
+// Ist der Zwischenstecker gerade an oder aus?
+Switch		WaMaTro			"Status Steckdose"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=1, parameter=STATE" }
+
+// Ist gerade ein Geraet in Betrieb (sprich: herrscht gerade signifikante Stromaufnahme?)
+Switch		CCU2_WaMaTro		"Waschmaschine und Trockner"	<switch>	(Waschkeller)	{ homematic="variable=WaMaTro" }
+
+// Die Werte - jeweils auf zwei Nachkommastellen gerundet
+// Der Gesamtverbrauch, der bisher ueber den Zwischenstecker geschleust wurde
+Number		WaMaTro_Gesamtverbrauch	"Gesamtverbrauch [%.2f Wh]"	<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=ENERGY_COUNTER" }
+
+// Leistung (W)
+Number		WaMaTro_Leistung	"Leistung [%.2f W]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=POWER" }
+
+// Strom (mA)
+Number		WaMaTro_Strom		"Strom [%.2f mA]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=CURRENT" }
+
+// Spannung (V)
+Number		WaMaTro_Spannung	"Netzspannung [%.2f V]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=VOLTAGE" }
+
+// Netzfrequenz (Hz)
+Number		WaMaTro_Frequenz	"Netzfrequenz [%.2f Hz]"	<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=FREQUENCY" }
+
+// Benoetigt, um die Zeitintervalle fuer die grafische Darstellung festlegen zu koennen
+// 
+Number		WaMaTro_Graph_Intervall	"Graph Intervall"
+DateTime 	WaMaTro_LastUpdate	"Letztes Update [%1$ta %1$tR]"	<clock>
