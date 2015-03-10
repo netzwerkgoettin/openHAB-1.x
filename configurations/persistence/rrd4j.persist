@@ -9,5 +9,5 @@ Strategies {
 }
 
 Items {
-	Textilpflege*,WaMaTro_* : strategy = everyMinute, restoreOnStartup
+	Waschkeller*,WaMaTro_* : strategy = everyMinute, restoreOnStartup
 }
