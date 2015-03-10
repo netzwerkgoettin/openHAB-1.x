@@ -1,0 +1,13 @@
+// rrd4j.persist / 20150310
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+
+Strategies {
+	everyMinute	: "0 * * * * ?"
+	everyHour       : "0 0 * * * ?"
+	everyDay        : "0 0 0 * * ?"
+}
+
+Items {
+	Textilpflege*,WaMaTro_* : strategy = everyMinute, restoreOnStartup
+}
