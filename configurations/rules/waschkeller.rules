@@ -1,0 +1,32 @@
+// waschkeller.rules / 20150326
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+
+import org.openhab.core.library.types.*
+var Number Var_WH
+// Anbieterpreis für KWh incl. MwSt.
+var Number ESSL_KWH=0.25
+
+//----------------------------------------------------------
+// Umrechnung der Wh in KWh
+//
+rule "Berechne KWh"
+when
+  Item WaMaTro_Gesamtverbrauch changed
+then
+  Var_WH = WaMaTro_Gesamtverbrauch.state
+  var Number Var_KWH = Var_WH / 1000
+  WaMaTro_Gesamtverbrauch_KWH.postUpdate(Var_KWH)
+end
+
+//----------------------------------------------------------
+// Berechnung der bisher vom Geraet verursachten Kosten
+//
+rule "Berechne Kosten WaMaTro"
+when 
+  Item WaMaTro_Gesamtverbrauch_KWH changed
+then
+  var Number Var_KWH = WaMaTro_Gesamtverbrauch_KWH.state
+  var Number Kosten = Var_KWH * ESSL_KWH
+  WaMaTro_Summe.postUpdate(Kosten)
+end 
