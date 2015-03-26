@@ -1,23 +1,31 @@
-// WaMaTro.items / 20150310
+// WaMaTro.items / 20150326
 // Marianne Spiller <github@spiller.me>
 // Devices: HM-ES-PMSw1-Pl / CCU2
 // openhab-1.7.0-SNAPSHOT
 
 // Eine Gruppe, die alle Unterpunkte zum Waschkeller enthaelt
 Group		Waschkeller		"Waschkeller"			<cellar>       (All)
+// Eine Gruppe für meinen WaMaTro-Graphen
+Group		WaMaTro_Graph
 
 // Ist der Zwischenstecker gerade an oder aus?
-Switch		WaMaTro			"Status Steckdose"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=1, parameter=STATE" }
+Switch		WaMaTro			"Status Steckdose"				<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=1, parameter=STATE" }
 
 // Ist gerade ein Geraet in Betrieb (sprich: herrscht gerade signifikante Stromaufnahme?)
-Switch		CCU2_WaMaTro		"Waschmaschine und Trockner"	<switch>	(Waschkeller)	{ homematic="variable=WaMaTro" }
+Switch		CCU2_WaMaTro		"Waschmaschine und Trockner"			<switch>	(Waschkeller)	{ homematic="variable=WaMaTro" }
 
 // Die Werte - jeweils auf zwei Nachkommastellen gerundet
 // Der Gesamtverbrauch, der bisher ueber den Zwischenstecker geschleust wurde
-Number		WaMaTro_Gesamtverbrauch	"Gesamtverbrauch [%.2f Wh]"	<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=ENERGY_COUNTER" }
+Number		WaMaTro_Gesamtverbrauch	"Gesamtverbrauch in Wh [%.2f Wh]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=ENERGY_COUNTER" }
+
+// Die KWh werde ich in einer rule ausrechnen lassen
+Number		WaMaTro_Gesamtverbrauch_KWH	"Gesamtverbrauch in KWh [%.2f KWh]"	<socket>        (Waschkeller, WaMaTro_Graph)
+
+// Der Preis pro KWh ist mir bekannt - also lasse ich mir per rule, wieviel Geld die Maschine bislang verbraten hat
+Number		WaMaTro_Summe		"Bislang verursachte Kosten [%.2f Eur]"		<smiley>	(Waschkeller)
 
 // Leistung (W)
-Number		WaMaTro_Leistung	"Leistung [%.2f W]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=POWER" }
+Number		WaMaTro_Leistung	"Leistung [%.2f W]"		<socket>	(Waschkeller, WaMaTro_Graph)	{ homematic="address=LEQ0273249, channel=2, parameter=POWER" }
 
 // Strom (mA)
 Number		WaMaTro_Strom		"Strom [%.2f mA]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=CURRENT" }
