@@ -1,4 +1,4 @@
-// waschkeller.sitemap / 20150310
+// waschkeller.sitemap / 20150326
 // Marianne Spiller <github@spiller.me>
 // openhab-1.7.0-SNAPSHOT
 
@@ -7,10 +7,10 @@ sitemap default label="Mein Haus"
 	Frame label="Waschmaschine und Trockner" {
 		Group item=Waschkeller label="Waschkeller" icon="cellar"
 		Switch item=WaMaTro_Graph_Intervall label="Statistik" mappings=[0="Stunde", 1="Tag", 2="Woche", 3="Monat", 4="Jahr"]
-		Chart item=Waschkeller period=h refresh=90000 visibility=[WaMaTro_Graph_Intervall==0, WaMaTro_Graph_Intervall=="Uninitialized"]
-		Chart item=Waschkeller period=D refresh=180000 visibility=[WaMaTro_Graph_Intervall==1]
-		Chart item=Waschkeller period=W refresh=180000 visibility=[WaMaTro_Graph_Intervall==2]
-		Chart item=Waschkeller period=M refresh=180000 visibility=[WaMaTro_Graph_Intervall==3]
-		Chart item=Waschkeller period=Y refresh=180000 visibility=[WaMaTro_Graph_Intervall==4]
+		Chart item=WaMaTro_Graph period=h refresh=90000 visibility=[WaMaTro_Graph_Intervall==0, WaMaTro_Graph_Intervall=="Uninitialized"]
+		Chart item=WaMaTro_Graph period=D refresh=180000 visibility=[WaMaTro_Graph_Intervall==1]
+		Chart item=WaMaTro_Graph period=W refresh=180000 visibility=[WaMaTro_Graph_Intervall==2]
+		Chart item=WaMaTro_Graph period=M refresh=180000 visibility=[WaMaTro_Graph_Intervall==3]
+		Chart item=WaMaTro_Graph period=Y refresh=180000 visibility=[WaMaTro_Graph_Intervall==4]
 	}
 }
