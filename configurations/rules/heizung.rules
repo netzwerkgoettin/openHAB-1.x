@@ -1,0 +1,36 @@
+// heizung.rules / 20150413
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+// Analog zu heizung.sitemap: 0="Normal", 1="Baden", 2="Eco", 3="Comfort"
+
+rule "ELW Badezimmer Heizungsmodi"
+when
+  Item ELW_Bad_Scene_Heating received command
+then {
+  // Zuerst alle Members der CTRL_Heating-Gruppe ausschalten
+  CTRL_Heating?.members.forEach(Channel|
+  	{
+		logInfo("Heating rules - ", Channel.name)
+		Channel.postUpdate(OFF)
+    }
+  )
+  switch(receivedCommand) {
+  	case 0 : {
+		logInfo("Heating rules", "Entering normal mode.")
+		ELW_Bad_STATE_AUTO.sendCommand(ON)
+  	}
+  	case 1 : {
+		logInfo("Heating rules", "Entering bathing mode.")
+		ELW_Bad_STATE_BOOST.sendCommand(ON)
+  	}
+  	case 2 : {
+		logInfo("Heating rules", "Entering eco mode.")
+		ELW_Bad_STATE_ECO.sendCommand(ON)
+  	}
+  	case 3 : {
+		logInfo("Heating rules", "Entering comfort mode.")
+		ELW_Bad_STATE_COMFORT.sendCommand(ON)
+  	}
+  }
+}
+end
