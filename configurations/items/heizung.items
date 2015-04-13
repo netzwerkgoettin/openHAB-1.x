@@ -1,0 +1,53 @@
+// heizung.items / 20150413
+// Marianne Spiller <github@spiller.me>
+// Devices: HH-CC-RT-DN / CCU2 / Meine exemplarische Heizung ist LEQ1287006
+// openhab-1.7.0-SNAPSHOT
+
+// In einer Gruppe will ich alle Heizkoerper erfassen
+Group:Number:AVG	Heizkoerper		"Heizkoerper"			<heating>
+
+// Dann erstelle ich eine Gruppe fuer die Badezimmerheizung
+Group		ELW_Bad_Heizung			"Heizung ELW Badezimmer"	<heating>	(ELW_Bad, Heizkoerper)
+
+//---------------------------------------------------------------------------------------------------------------
+// Die vier Zustaende, in die ich den Heizkoerper schalten kann
+// Die Switches sollen im Webinterface nicht einzeln erscheinen, sondern zusammengefasst als Buttons
+// Darueberhinaus fasse ich sie in der Gruppe CTRL_Heating zusammen
+Group:Number:AVG	CTRL_Heating
+
+Number	ELW_Bad_Scene_Heating		"Modus Heizkoerper Bad"			<sofa>
+
+// Der uebliche Ablauf, wie er in der CCU2 definiert wird
+Switch	ELW_Bad_STATE_AUTO		(CTRL_Heating)		{ homematic="address=LEQ1287006, channel=4, parameter=AUTO_MODE" }
+
+// Kurzfristiges Aufheizen; Dauer und Ventiloeffnung werden ueber die CCU2 festgelegt
+Switch	ELW_Bad_STATE_BOOST		(CTRL_Heating)		{ homematic="address=LEQ1287006, channel=4, parameter=BOOST_MODE" }
+
+// Absenken des Sollwerts auf Eco-Temperatur (CONTROL_MODE bleibt AUTO-MODE)
+Switch	ELW_Bad_STATE_ECO		(CTRL_Heating)		{ homematic="address=LEQ1287006, channel=4, parameter=LOWERING_MODE" }
+
+// Anheben des Sollwerts auf Comfort-Temperatur (CONTROL_MODE bleibt AUTO-MODE)
+Switch	ELW_Bad_STATE_COMFORT	(CTRL_Heating)		{ homematic="address=LEQ1287006, channel=4, parameter=COMFORT_MODE" }
+
+//---------------------------------------------------------------------------------------------------------------
+// Und alle Werte auslesen, die moeglich sind
+// Der Sollwert
+Number	ELW_Bad_Heizung_SET_TEMPERATURE	"Temperatur manuell einstellen [%.1f °C]"	<temperature>				{ homematic="address=LEQ1287006, channel=4, parameter=SET_TEMPERATURE" }
+
+// Der aktuell gemessene Wert
+Number	ELW_Bad_Heizung_ACTUALTEMP	"Aktuell gemessene Temperatur [%.1f °C]"		<temperature>   (ELW_Bad_Heizung)	{ homematic="address=LEQ1287006, channel=4, parameter=ACTUAL_TEMPERATURE" }
+
+// Die aktuelle Ventiloeffnung, Angabe in Prozent
+Number	ELW_Bad_Heizung_VALVE		"Ventil [%d %%]"				<heating>       (ELW_Bad_Heizung)	{ homematic="address=LEQ1287006, channel=4, parameter=VALVE_STATE" }
+
+// Der aktuelle Modus
+String	ELW_Bad_Heizung_MODE		"Modus [MAP(HM-CC-RT-DN.map):%s]"		<heating>	(ELW_Bad_Heizung)	{ homematic="address=LEQ1287006, channel=4, parameter=CONTROL_MODE" }
+
+// Die Restdauer, sollte sich das Thermostat gerade im Boost befinden
+Number	ELW_Bad_Heizung_BOOST_STATE	"Boost Restdauer [%d min]"			<heating>	(ELW_Bad_Heizung)	{ homematic="address=LEQ1287006, channel=4, parameter=BOOST_STATE" }
+
+// Für den Fall, dass das Geraet einen Fehler rueckmeldet
+String	ELW_Bad_Heizung_FAULT_REPORTING	"Fehlerwert [MAP(HM-CC-RT-DN.map):%s]"		<heating>	(ELW_Bad_Heizung)	{ homematic="address=LEQ1287006, channel=4, parameter=FAULT_REPORTING" }
+
+// Die Batteriespannung
+Number	ELW_Bad_Heizung_BATTERY_STATE	"Batterie [%.1f V]"				<heating>	(ELW_Bad_Heizung)	{ homematic="address=LEQ1287006, channel=4, parameter=BATTERY_STATE" }
