@@ -1,0 +1,12 @@
+// heizung.sitemap / 20150412
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+
+sitemap default label="Mein Haus"
+{
+  Frame label="Badezimmer" {
+    Group item=ELW_Bad_Heizung
+    Setpoint item=ELW_Bad_Heizung_SET_TEMPERATURE minValue=17 maxValue=28 step=0.5
+    Switch item=ELW_Bad_Scene_Heating mappings=[0="Normal", 1="Baden", 2="Eco", 3="Comfort"]
+  }
+}
