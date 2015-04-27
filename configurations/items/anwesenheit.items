@@ -1,0 +1,16 @@
+// anwesenheit.items / 20150427
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+
+Group:Switch:OR(ON, OFF)		Anwesenheit	"Anwesenheit [(%d)]"		<present>
+
+//-------------------------
+// Variable wird auf der CCU2 gesetzt, damit sie dort ggf. weiter verwendet werden kann
+//
+Switch	JemandDa								{ homematic="variable=CCU2_mqtt" }
+
+//-------------------------
+// Switches zu Mane
+//
+Switch	ManeHome	"Marianne @home"	<present>	(Anwesenheit)	{ mqttitude="mosquitto:owntracks/mane/iphone6:zuhause" }
+Switch	ManeKiGa	"Marianne @kiga"	<present>	(Anwesenheit)	{ mqttitude="mosquitto:owntracks/mane/iphone6:kiga" }
