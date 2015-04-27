@@ -1,0 +1,60 @@
+// anwesenheit.rules / 20150427
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.0-SNAPSHOT
+
+rule "Marianne verlaesst das Haus"
+when
+	Item ManeHome changed from ON to OFF
+then
+	logInfo("PresenceCheck", "Marianne verlaesst das Haus.")
+	JemandDa.sendCommand(OFF)
+	pushNotification("PresenceCheck", "Viel Spass unterwegs, Marianne.")
+end
+
+rule "Marianne kommt nach Hause"
+when
+	Item ManeHome changed from OFF to ON 
+then
+	logInfo("PresenceCheck", "Marianne kommt nach Hause.")
+	JemandDa.sendCommand(ON)
+	pushNotification("PresenceCheck", "Willkommen zu Hause, Marianne.")
+end
+
+rule "Marianne am KiGa"
+when
+	Item ManeKiGa changed from OFF to ON 
+then
+	logInfo("PresenceCheck", "Marianne ist am Kindergarten.")
+	pushNotification("PresenceCheck", "Du bist nun am KiGa.")
+end
+
+rule "Marianne verlaesst KiGa"
+when
+	Item ManeKiGa changed from ON to OFF 
+then
+	logInfo("PresenceCheck", "Marianne verlaesst nun den Kindergarten.")
+	pushNotification("PresenceCheck", "Du verlaesst nun den KiGa.")
+end
+ 
+
+//--------------------------------------------------------------------------
+// Kommt jemand nach Hause, so soll das Stimmungslicht angeschaltet werden
+//
+rule "Nach Hause kommen"
+when
+	Item JemandDa received update ON
+then
+	logInfo("PresenceCheck", "Schalte Stimmungslicht an.")
+	ELW_Wohnraum_Funksteckdose.sendCommand(ON)
+end
+
+//--------------------------------------------------------------------------
+// Ist niemand zu Hause: Stimmungslicht aus
+//
+rule "Das Haus verlassen"
+when
+  Item JemandDa received update OFF
+then
+	logInfo("PresenceCheck", "Schalte Stimmungslicht aus.")
+	ELW_Wohnraum_Funksteckdose.sendCommand(OFF)
+end
