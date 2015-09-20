@@ -1,0 +1,42 @@
+// Badezimmer_1.items / 20150920
+// Marianne Spiller <github@spiller.me>
+// HM-PB-6-WM55 / HM-SwI-3-FM / HM-PB-6-WM55 / HM-LC-Dim1T-FM
+//
+//----------------------------------------------------------------------
+// Wandthermostat HM-PB-6-WM55 // MEQ0091639
+//
+Number	Badezimmer_1_WT_Temp		"Temperatur Badezimmer [%.1f °C]"		<temperature>		(Badezimmer_1)		{ homematic="address=MEQ0091639, channel=2, parameter=ACTUAL_TEMPERATURE" }
+Number	Badezimmer_1_WT_Hum		"Luftfeuchtigkeit Badezimmer [%.1f %%]"		<temperature>		(Badezimmer_1)		{ homematic="address=MEQ0091639, channel=2, parameter=ACTUAL_HUMIDITY" }
+
+//----------------------------------------------------------------------
+// 3-fach-Aktor HM-SwI-3-FM // LEQ1097103
+// Aktionen muessen ueber INSTALL_TEST gesteuert werden!
+//	Channel 1 wird angesteuert ueber den Wandschalter
+Switch	Badezimmer_1_3fach_1		"Aussenschalter: Deckenlicht"					{ homematic="address=LEQ1097103, channel=1, parameter=INSTALL_TEST" }
+// 	Channel 2+3: Lueftungsanlage, noch nicht geliefert
+//	Switch	Badezimmer_1_3fach_2	"3fach-Aktor: Schalter 2"					{ homematic="address=LEQ1097103, channel=2, parameter=INSTALL_TEST" }
+//	Switch	Badezimmer_1_3fach_3	"3fach-Aktor: Schalter 3"					{ homematic="address=LEQ1097103, channel=3, parameter=INSTALL_TEST" }
+
+//----------------------------------------------------------------------
+// 6fach-Wandtaster HM-PB-6-WM55 // MEQ0385873
+// 	Channel 1+2: Deckenbeleuchtung, nicht dimmbar
+Switch	Badezimmer_1_Deckenlicht	"Deckenlicht"				(Badezimmer_1, Lampen)	{ homematic="address=LEQ0900581, channel=1, parameter=STATE" }
+Switch	Badezimmer_1_6fach_1		"Wandtaster: Deckenlicht an"					{ homematic="address=MEQ0385873, channel=1, parameter=PRESS_SHORT" }
+Switch	Badezimmer_1_6fach_2		"Wandtaster: Deckenlicht aus"					{ homematic="address=MEQ0385873, channel=2, parameter=PRESS_SHORT" }
+
+// 	Channel 3+4: Spiegelschrank, noch nicht geliefert
+// Channel 3 PRESS_SHORT: -an-
+// Channel 3 PRESS_LONG: -dimm_plus-
+// Channel 4 PRESS_SHORT: -aus-
+// Channel 4 PRESS_LONG: -dimm_minus-
+
+// 6fach-Wandtaster HM-PB-6-WM55 // MEQ0385873
+// 	Channel 5+6: Wandbeleuchtung
+//	Dimmaktor HM-LC-Dim1T-FM // MEQ0081533 // Channel 1
+Dimmer	Badezimmer_1_Wandlicht		"Wandlicht [%d %%]"			(Badezimmer_1)	{ homematic="address=MEQ0081533, channel=1, parameter=LEVEL" }
+Switch	Badezimmer_1_6fach_5		"Wandschalter: Wandlicht an"				{ homematic="address=MEQ0385873, channel=5, parameter=PRESS_SHORT" }
+Switch	Badezimmer_1_6fach_5_plus	"Wandschalter: Wandlicht Dimmer plus"			{ homematic="address=MEQ0385873, channel=5, parameter=INSTALL_TEST" }
+Switch	Badezimmer_1_6fach_5_release								{ homematic="address=MEQ0385873, channel=5, parameter=PRESS_LONG_RELEASE" }
+Switch	Badezimmer_1_6fach_6		"Wandschalter: Wandlicht aus"				{ homematic="address=MEQ0385873, channel=6, parameter=PRESS_SHORT" }
+Switch	Badezimmer_1_6fach_6_plus	"Wandschalter: Wandlicht Dimmer minus" 			{ homematic="address=MEQ0385873, channel=6, parameter=PRESS_LONG" }
+Switch	Badezimmer_1_6fach_6_release								{ homematic="address=MEQ0385873, channel=6, parameter=PRESS_LONG_RELEASE" }
