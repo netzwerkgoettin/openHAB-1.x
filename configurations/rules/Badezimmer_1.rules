@@ -1,0 +1,56 @@
+// Badezimmer_1.rules / 20150920
+// Marianne Spiller <github@spiller.me>
+// HM-PB-6-WM55 / HM-SwI-3-FM / HM-PB-6-WM55 / HM-LC-Dim1T-FM
+//
+var Number Wandlicht = Badezimmer_1_Wandlicht.state as PercentType
+
+//----------------------------------------------------------------------
+rule "Schalte Deckenlicht Badezimmer_1 ein"
+when
+	Item Badezimmer_1_6fach_1 received update ON
+then
+	Badezimmer_1_Deckenlicht.sendCommand(ON)
+	logInfo("Badezimmer_1", "Status Deckenlicht ist {}", Badezimmer_1_Deckenlicht.state)
+end
+
+//----------------------------------------------------------------------
+rule "Schalte Deckenlicht Badezimmer_1 aus"
+when
+	Item Badezimmer_1_6fach_2 received update ON
+then
+	Badezimmer_1_Deckenlicht.sendCommand(OFF)
+	logInfo("Badezimmer_1", "Status Deckenlicht ist {}", Badezimmer_1_Deckenlicht.state)
+end
+
+//----------------------------------------------------------------------
+rule "Aussenschalter Deckenlicht Badezimmer_1"
+when
+	Item Badezimmer_1_3fach_1 received update ON
+then
+	logInfo("Badezimmer_1", "Status Deckenlicht ist {}", Badezimmer_1_Deckenlicht.state)
+	if(Badezimmer_1_Deckenlicht.state==ON) {
+		Badezimmer_1_Deckenlicht.sendCommand(OFF)
+	} else {
+		Badezimmer_1_Deckenlicht.sendCommand(ON)
+	}
+	logInfo("Badezimmer_1", "Aussenschalter schaltet Deckenlicht {}", Badezimmer_1_Deckenlicht.state)
+end
+
+
+//----------------------------------------------------------------------
+rule "Wandlicht Badezimmer_1 an"
+when
+	Item Badezimmer_1_6fach_5 received update ON 
+then
+	Badezimmer_1_Wandlicht.sendCommand(100)
+	logInfo("Badezimmer_1", "Wandlicht an!")
+end
+
+//----------------------------------------------------------------------
+rule "Wandlicht Badezimmer_1 aus"
+when
+	Item Badezimmer_1_6fach_6 received update ON
+then
+	Badezimmer_1_Wandlicht.sendCommand(0)
+	logInfo("Badezimmer_1", "Wandlicht aus!")
+end
