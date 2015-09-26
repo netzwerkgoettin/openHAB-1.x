@@ -1,7 +1,7 @@
 // Badezimmer_1.rules / 20150926
 // Marianne Spiller <github@spiller.me>
 // openhab-1.7.1-STABLE
-// HM-PB-6-WM55 / HM-SwI-3-FM / HM-PB-6-WM55
+// HM-LC-Sw4-DR / HM-SwI-3-FM / HM-PB-6-WM55
 //
 //---------------------------------------------------------
 rule "Schalte Deckenlicht Badezimmer_1"
