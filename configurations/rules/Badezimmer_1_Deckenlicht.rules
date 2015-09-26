@@ -1,0 +1,20 @@
+// Badezimmer_1.rules / 20150926
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.1-STABLE
+// HM-PB-6-WM55 / HM-SwI-3-FM / HM-PB-6-WM55
+//
+//---------------------------------------------------------
+rule "Schalte Deckenlicht Badezimmer_1"
+when
+        Item Badezimmer_1_3fach_1 received update ON or
+        Item Badezimmer_1_6fach_1 received update ON or
+        Item Badezimmer_1_6fach_2 received update ON
+then
+        logInfo("Badezimmer_1", "Status Deckenlicht ist {}", Badezimmer_1_Deckenlicht.state)
+        if(Badezimmer_1_Deckenlicht.state==ON) {
+                Badezimmer_1_Deckenlicht.sendCommand(OFF)
+        } else {
+                Badezimmer_1_Deckenlicht.sendCommand(ON)
+        }
+        logInfo("Badezimmer_1", "Schalte Deckenlicht in Badezimmer_1 {}", Badezimmer_1_Deckenlicht.state)
+end
