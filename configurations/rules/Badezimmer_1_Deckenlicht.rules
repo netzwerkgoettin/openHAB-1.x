@@ -7,8 +7,8 @@
 rule "Schalte Deckenlicht Badezimmer_1"
 when
         Item Badezimmer_1_3fach_1 received update ON or
-        Item Badezimmer_1_6fach_1 received update ON or
-        Item Badezimmer_1_6fach_2 received update ON
+        Item Badezimmer_1_6fach_1_release received update ON or
+        Item Badezimmer_1_6fach_2_release received update ON
 then
         logInfo("Badezimmer_1", "Status Deckenlicht ist {}", Badezimmer_1_Deckenlicht.state)
         if(Badezimmer_1_Deckenlicht.state==ON) {

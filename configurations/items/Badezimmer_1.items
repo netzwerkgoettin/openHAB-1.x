@@ -21,8 +21,8 @@ Switch	Badezimmer_1_3fach_1		"Aussenschalter: Deckenlicht"					{ homematic="addr
 // 6fach-Wandtaster HM-PB-6-WM55 // MEQ0385873
 // 	Channel 1+2: Deckenbeleuchtung, nicht dimmbar
 Switch	Badezimmer_1_Deckenlicht	"Deckenlicht"				(Badezimmer_1, Lampen)	{ homematic="address=LEQ0900581, channel=1, parameter=STATE" }
-Switch	Badezimmer_1_6fach_1		"Wandtaster: Deckenlicht an"					{ homematic="address=MEQ0385873, channel=1, parameter=PRESS_SHORT" }
-Switch	Badezimmer_1_6fach_2		"Wandtaster: Deckenlicht aus"					{ homematic="address=MEQ0385873, channel=2, parameter=PRESS_SHORT" }
+Switch	Badezimmer_1_6fach_1_release	"Wandtaster: Deckenlicht an"					{ homematic="address=MEQ0385873, channel=1, parameter=PRESS_LONG_RELEASE" }
+Switch	Badezimmer_1_6fach_2_release	"Wandtaster: Deckenlicht aus"					{ homematic="address=MEQ0385873, channel=2, parameter=PRESS_LONG_RELEASE" }
 
 // 	Channel 3+4: Spiegelschrank, noch nicht geliefert
 // Channel 3 PRESS_SHORT: -an-
