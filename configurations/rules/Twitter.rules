@@ -1,0 +1,13 @@
+// Twitter.rules / 20160201
+// Marianne Spiller <github@spiller.me>
+// openhab-1.7.1
+// Requires: org.openhab.action.twitter-1.7.1.jar
+
+rule "Sende einen regelmäßigen Tweet"
+when
+	Time cron "0 23 * * * ?"
+then
+	var Number Stunde = now.getHourOfDay
+	var Number Minute = now.getMinuteOfHour
+	sendTweet("Die Außentemperatur beträgt " +Wetter_Temperatur.state +"°C um " +Stunde +" Uhr und " +Minute +" Minuten.")
+end
