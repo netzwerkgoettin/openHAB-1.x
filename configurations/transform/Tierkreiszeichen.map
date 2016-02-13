@@ -1,7 +1,7 @@
-// Tierkreiszeichen.map / 20150228
+// Tierkreiszeichen.map / 20160213
 // Marianne Spiller <github@spiller.me>
 // Vgl. http://de.wikipedia.org/wiki/Tierkreiszeichen#Die_zw.C3.B6lf_Tierkreiszeichen_des_Zodiaks
-// openhab-1.7.0-SNAPSHOT
+// openhab-1.8.1-STABLE
 
 Aries=Widder (21. März – 20. April)
 Taurus=Stier (21. April – 21. Mai)
