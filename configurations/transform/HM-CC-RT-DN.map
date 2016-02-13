@@ -1,19 +1,20 @@
-// HM-CC-RT-DN.map / 20150413
+// HM-CC-RT-DN.map / 20160213
 // Marianne Spiller <github@spiller.me>
+// openhab-1.8.1-STABLE
 
 // MODE
 AUTO-MODE=Automatik
 MANU-MODE=Manuelle Schaltung
-PARTY-MODE=Urlaubsschaltung
+PARTY-MODE=Party-Modus
 BOOST-MODE=Boost
 
 // ERROR
 NO_FAULT=Kein Fehler
 VALVE_TIGHT=Ventil undicht
-ADJUSTING_RANGE_TOO_LARGE=Stellbereich zu gross
-ADJUSTING_RANGE_TOO_SMALL=Stellbereich zu klein
-COMMUNICATION_ERROR=Geraetekommunikation gestoert
-LOWBAT=Batteriespannung zu gering
+ADJUSTING_RANGE_TOO_LARGE=ADJUSTING_RANGE_TOO_LARGE
+ADJUSTING_RANGE_TOO_SMALL=ADJUSTING_RANGE_TOO_SMALL
+COMMUNICATION_ERROR=Kommunikationsfehler
+LOWBAT=Bitte Batterie wechseln
 VALVE_ERROR_POSITION=Ventilposition
 
 // UNSET
