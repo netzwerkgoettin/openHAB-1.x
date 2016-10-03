@@ -1,0 +1,58 @@
+// Badezimmer_1_Luefter.rules / 20161003
+// Marianne Spiller <github@spiller.me>
+// openhab-1.8.3
+
+// Die CCU2 sendet automatisch alle 2 bis 3 Minuten ein Update von Luftfeuchtigkeit und Temperatur
+// Diese Werte koennen also entsprechend zur Berechnung herangezogen werden bei "changed"
+// => http://web-docs.gsi.de/~giese/luftfeuchtigkeit.php
+// Außen-Luftfeuchtigkeit - 3 * (Innentemperatur - Außentemperatur) => Zu erwartende Innen-Luftfeuchtigkeit.
+// "Die Näherungsformel liefert zwar oft ungenaue Werte, doch in 96 % aller Fälle reicht dies für die
+// Entscheidung, ob man lüften sollte oder nicht."
+
+import org.openhab.model.script.actions.Timer
+
+rule "Berechne Delta Luftfeuchtigkeit"
+when
+	Item Badezimmer_1_WT_Hum changed
+	or Item Lueftertest received command
+then
+	// Ziehe heran, wie weit der neue Wert vom Optimalwert abweicht
+	var Number Badezimmer_1_HUM_aktuell = Badezimmer_1_WT_Hum.state as org.openhab.core.library.types.DecimalType
+	var Number Aussen_HUM_aktuell = Wetter_Luftfeuchtigkeit.state as org.openhab.core.library.types.DecimalType
+	var Number Innentemperatur = Badezimmer_1_WT_Temp.state as org.openhab.core.library.types.DecimalType
+	var Number Aussentemperatur = Wetter_Temperatur.state as org.openhab.core.library.types.DecimalType
+	
+	var Number Badezimmer_1_HUM_optimal = Aussen_HUM_aktuell - 3 * (Innentemperatur - Aussentemperatur)
+	
+	logInfo("Badezimmer_1", "Die optimale Luftfeuchtigkeit läge bei {}", Badezimmer_1_HUM_optimal)
+
+	/* Nun gilt es die 4% abzufangen die Quatsch sind */
+	if(Badezimmer_1_HUM_optimal<30) {
+		logInfo("Badezimmer_1", "Keine Lüfter-Aktion, da Optimalwert unrealistisch scheint.")
+	} else {
+		var Number Badezimmer_1_HUM_Abweichung = Badezimmer_1_HUM_aktuell - Badezimmer_1_HUM_optimal	
+		if(Badezimmer_1_HUM_Abweichung>10) {
+			if(Badezimmer_1_Luefter.state==OFF) {
+			  // Die Luftfeuchtigkeit ist zu hoch im Vergleich zum Optimalwert; hier geht es nun los
+			  logInfo("Badezimmer_1", "Aktion laeuft an - Abweichung {}", Badezimmer_1_HUM_Abweichung)
+			  Badezimmer_1_Luefter.sendCommand(ON)
+			}
+		} else {
+			logInfo("Badezimmer_1", "Keine Aktion - Abweichung {}", Badezimmer_1_HUM_Abweichung)
+			if (Badezimmer_1_Luefter.state==ON) {
+			  Badezimmer_1_Luefter.sendCommand(OFF)
+			}
+		}	
+	}
+end
+
+rule "Luefter fuer fünfzehn Minuten"
+when
+	Item Badezimmer_1_Luefter changed
+then
+	if (Badezimmer_1_Luefter.state==ON) {
+                createTimer(now.plusMinutes(15)) [|
+                        Badezimmer_1_Luefter.sendCommand(OFF)
+                ]
+        }
+end
