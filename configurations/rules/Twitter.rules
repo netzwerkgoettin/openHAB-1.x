@@ -1,7 +1,7 @@
 // Twitter.rules / 20160201
 // Marianne Spiller <github@spiller.me>
-// openhab-1.7.1
-// Requires: org.openhab.action.twitter-1.7.1.jar
+// openhab-1.8.3-STABLE
+// Requires: org.openhab.action.twitter-1.8.3.jar
 
 rule "Sende einen regelmäßigen Tweet"
 when

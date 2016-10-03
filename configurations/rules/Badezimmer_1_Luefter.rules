@@ -1,6 +1,6 @@
 // Badezimmer_1_Luefter.rules / 20161003
 // Marianne Spiller <github@spiller.me>
-// openhab-1.8.3
+// openhab-1.8.3-STABLE
 
 // Die CCU2 sendet automatisch alle 2 bis 3 Minuten ein Update von Luftfeuchtigkeit und Temperatur
 // Diese Werte koennen also entsprechend zur Berechnung herangezogen werden bei "changed"
