@@ -6,31 +6,36 @@
 
 Group	gLeistungsmesser		"Leistungsmesser"	<washingmachine>			(gWaschkeller)
 // Hier kommt der Homematic-Leistungsmesser, abgekürzt mit LM
-// Ist der Zwischenstecker gerade an oder aus?
-Switch		LM_Power			"Steckdose"					<washingmachine>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=1, parameter=STATE" }
 
-String		LM_Zustand			"Waschmaschine... [%s]"		<washingmachine>	(gWaschkeller)
+// Eine Gruppe für meinen WaMaTro-Graphen
+Group		LM_Graph
+
+// Ist der Zwischenstecker gerade an oder aus?
+Switch		LM_Power			"Steckdose"					<washingmachine>	(gLeistungsmesser)	{ homematic="address=LEQ0273249, channel=1, parameter=STATE" }
+
+// Für den Output in der Sitemap ein String Item
+String		LM_Zustand			"Waschmaschine... [%s]"		<washingmachine>	(gLeistungsmesser)
 
 // Leistung (W)
-Number		LM_Leistung	"Aktueller Verbrauch [%.2f W]"		<washingmachine>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=POWER" }
+Number		LM_Leistung	"Aktueller Verbrauch [%.2f W]"		<washingmachine>	(gLeistungsmesser)	{ homematic="address=LEQ0273249, channel=2, parameter=POWER" }
 
 // Maximale Leistung innerhalb dieses Waschgangs
-Number		LM_Maximal	"Maximale Leistung dieses Waschgangs [%.2f W]"
+Number		LM_Maximal	"Maximale Leistung dieses Waschgangs [%.2f W]"		<energy>	(gLeistungsmesser)
 
 // Die Werte - jeweils auf zwei Nachkommastellen gerundet
-Number		LM_Gesamtverbrauch	"Gesamtverbrauch in Wh [%.2f Wh]"		<energy>		{ homematic="address=LEQ0273249, channel=2, parameter=ENERGY_COUNTER" }
+Number		LM_Gesamtverbrauch	"Gesamtverbrauch in Wh [%.2f Wh]"		<energy>	(gLeistungsmesser)	{ homematic="address=LEQ0273249, channel=2, parameter=ENERGY_COUNTER" }
 
 // Die KWh werde ich in einer rule ausrechnen lassen
-Number		LM_Gesamtverbrauch_KWH	"Gesamtverbrauch in KWh [%.2f KWh]"	<energy>	(gLeistungsmesser)
+Number		LM_Gesamtverbrauch_KWH	"Gesamtverbrauch in KWh [%.2f KWh]"	<energy>	(gLeistungsmesser,LM_Graph)
 
 // Der Preis pro KWh ist mir bekannt - also lasse ich mir per rule, wieviel Geld die Maschine bislang verbraten hat
 Number		LM_Summe		"Bislang verursachte Kosten [%.2f Eur]"		<energy>	(gLeistungsmesser)
 
 // Strom (mA)
-Number		LM_Strom		"Strom [%.2f mA]"		<energy>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=CURRENT" }
+Number		LM_Strom		"Strom [%.2f mA]"		<energy>	(gLeistungsmesser,LM_Graph)	{ homematic="address=LEQ0273249, channel=2, parameter=CURRENT" }
 
 // Spannung (V)
-Number		LM_Spannung	"Netzspannung [%.2f V]"		<energy>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=VOLTAGE" }
+Number		LM_Spannung	"Netzspannung [%.2f V]"		<energy>	(gLeistungsmesser)	{ homematic="address=LEQ0273249, channel=2, parameter=VOLTAGE" }
 
 // Netzfrequenz (Hz)
-Number		LM_Frequenz	"Netzfrequenz [%.2f Hz]"	<energy>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=FREQUENCY" }
+Number		LM_Frequenz	"Netzfrequenz [%.2f Hz]"	<energy>	(gLeistungsmesser)	{ homematic="address=LEQ0273249, channel=2, parameter=FREQUENCY" }
