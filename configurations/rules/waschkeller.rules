@@ -8,7 +8,7 @@ import org.joda.time.*
 import org.openhab.model.script.actions.Timer
 
 var Number Var_WH
-// var Number ESSL_KWH=0.25
+var Number ESSL_KWH=0.25
 var Timer tWaschmaschine
 
 //----------------------------------------------------------
