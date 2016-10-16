@@ -1,42 +1,36 @@
-// WaMaTro.items / 20150326
+// Waschkeller.items / 20161016
 // Marianne Spiller <github@spiller.me>
 // Devices: HM-ES-PMSw1-Pl / CCU2
-// openhab-1.7.0-SNAPSHOT
+// https://www.unixe.de/waschmaschinenkontrolle-leicht-verbessert/
+// openhab-1.8.3-STABLE
 
-// Eine Gruppe, die alle Unterpunkte zum Waschkeller enthaelt
-Group		Waschkeller		"Waschkeller"			<cellar>       (All)
-// Eine Gruppe für meinen WaMaTro-Graphen
-Group		WaMaTro_Graph
-
+Group	gLeistungsmesser		"Leistungsmesser"	<washingmachine>			(gWaschkeller)
+// Hier kommt der Homematic-Leistungsmesser, abgekürzt mit LM
 // Ist der Zwischenstecker gerade an oder aus?
-Switch		WaMaTro			"Status Steckdose"				<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=1, parameter=STATE" }
+Switch		LM_Power			"Steckdose"					<washingmachine>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=1, parameter=STATE" }
 
-// Ist gerade ein Geraet in Betrieb (sprich: herrscht gerade signifikante Stromaufnahme?)
-Switch		CCU2_WaMaTro		"Waschmaschine und Trockner"			<switch>	(Waschkeller)	{ homematic="variable=WaMaTro" }
-
-// Die Werte - jeweils auf zwei Nachkommastellen gerundet
-// Der Gesamtverbrauch, der bisher ueber den Zwischenstecker geschleust wurde
-Number		WaMaTro_Gesamtverbrauch	"Gesamtverbrauch in Wh [%.2f Wh]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=ENERGY_COUNTER" }
-
-// Die KWh werde ich in einer rule ausrechnen lassen
-Number		WaMaTro_Gesamtverbrauch_KWH	"Gesamtverbrauch in KWh [%.2f KWh]"	<socket>        (Waschkeller, WaMaTro_Graph)
-
-// Der Preis pro KWh ist mir bekannt - also lasse ich mir per rule, wieviel Geld die Maschine bislang verbraten hat
-Number		WaMaTro_Summe		"Bislang verursachte Kosten [%.2f Eur]"		<smiley>	(Waschkeller)
+String		LM_Zustand			"Waschmaschine... [%s]"		<washingmachine>	(gWaschkeller)
 
 // Leistung (W)
-Number		WaMaTro_Leistung	"Leistung [%.2f W]"		<socket>	(Waschkeller, WaMaTro_Graph)	{ homematic="address=LEQ0273249, channel=2, parameter=POWER" }
+Number		LM_Leistung	"Aktueller Verbrauch [%.2f W]"		<washingmachine>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=POWER" }
+
+// Maximale Leistung innerhalb dieses Waschgangs
+Number		LM_Maximal	"Maximale Leistung dieses Waschgangs [%.2f W]"
+
+// Die Werte - jeweils auf zwei Nachkommastellen gerundet
+Number		LM_Gesamtverbrauch	"Gesamtverbrauch in Wh [%.2f Wh]"		<energy>		{ homematic="address=LEQ0273249, channel=2, parameter=ENERGY_COUNTER" }
+
+// Die KWh werde ich in einer rule ausrechnen lassen
+Number		LM_Gesamtverbrauch_KWH	"Gesamtverbrauch in KWh [%.2f KWh]"	<energy>	(gLeistungsmesser)
+
+// Der Preis pro KWh ist mir bekannt - also lasse ich mir per rule, wieviel Geld die Maschine bislang verbraten hat
+Number		LM_Summe		"Bislang verursachte Kosten [%.2f Eur]"		<energy>	(gLeistungsmesser)
 
 // Strom (mA)
-Number		WaMaTro_Strom		"Strom [%.2f mA]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=CURRENT" }
+Number		LM_Strom		"Strom [%.2f mA]"		<energy>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=CURRENT" }
 
 // Spannung (V)
-Number		WaMaTro_Spannung	"Netzspannung [%.2f V]"		<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=VOLTAGE" }
+Number		LM_Spannung	"Netzspannung [%.2f V]"		<energy>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=VOLTAGE" }
 
 // Netzfrequenz (Hz)
-Number		WaMaTro_Frequenz	"Netzfrequenz [%.2f Hz]"	<socket>	(Waschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=FREQUENCY" }
-
-// Benoetigt, um die Zeitintervalle fuer die grafische Darstellung festlegen zu koennen
-// 
-Number		WaMaTro_Graph_Intervall	"Graph Intervall"
-DateTime 	WaMaTro_LastUpdate	"Letztes Update [%1$ta %1$tR]"	<clock>
+Number		LM_Frequenz	"Netzfrequenz [%.2f Hz]"	<energy>	(gWaschkeller)	{ homematic="address=LEQ0273249, channel=2, parameter=FREQUENCY" }
