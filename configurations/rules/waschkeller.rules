@@ -1,32 +1,104 @@
-// waschkeller.rules / 20150326
+// waschkeller.rules / 20161016
 // Marianne Spiller <github@spiller.me>
-// openhab-1.7.0-SNAPSHOT
+// openhab-1.8.3-STABLE
 
 import org.openhab.core.library.types.*
+import org.java.math.*
+import org.joda.time.*
+import org.openhab.model.script.actions.Timer
+
 var Number Var_WH
-// Anbieterpreis für KWh incl. MwSt.
-var Number ESSL_KWH=0.25
+// var Number ESSL_KWH=0.25
+var Timer tWaschmaschine
 
 //----------------------------------------------------------
-// Umrechnung der Wh in KWh
-//
-rule "Berechne KWh"
+rule "Umrechnung  Wh <-> KWh"
 when
-  Item WaMaTro_Gesamtverbrauch changed
+  Item LM_Gesamtverbrauch changed
 then
-  Var_WH = WaMaTro_Gesamtverbrauch.state
+  Var_WH = LM_Gesamtverbrauch.state as org.openhab.core.library.types.DecimalType
   var Number Var_KWH = Var_WH / 1000
-  WaMaTro_Gesamtverbrauch_KWH.postUpdate(Var_KWH)
+  LM_Gesamtverbrauch_KWH.postUpdate(Var_KWH)
 end
 
+
 //----------------------------------------------------------
-// Berechnung der bisher vom Geraet verursachten Kosten
-//
-rule "Berechne Kosten WaMaTro"
+rule "Berechne Kosten Leistungsmesser"
 when 
-  Item WaMaTro_Gesamtverbrauch_KWH changed
+  Item LM_Gesamtverbrauch_KWH changed
 then
-  var Number Var_KWH = WaMaTro_Gesamtverbrauch_KWH.state
+  var Number Var_KWH = LM_Gesamtverbrauch_KWH.state as org.openhab.core.library.types.DecimalType
   var Number Kosten = Var_KWH * ESSL_KWH
-  WaMaTro_Summe.postUpdate(Kosten)
-end 
+  LM_Summe.postUpdate(Kosten)
+end
+
+
+//----------------------------------------------------------
+rule "Setze maximale Leistung zurück"
+when
+	Item LM_Power received update ON
+then
+	LM_Maximal.postUpdate(0.00)
+end
+ 
+//----------------------------------------------------------
+rule "Maschine abschalten und benachrichtigen wenn fertig"
+when
+	Item LM_Leistung changed
+then
+	var Number Aktuelle_Leistung = LM_Leistung.state as org.openhab.core.library.types.DecimalType
+	var Number Maximale_Leistung = LM_Maximal.state as org.openhab.core.library.types.DecimalType
+	
+	if(LM_Power.state=="OFF") {
+		logInfo("Waschkeller", "Keine Aktion - Status Steckdose {}.", LM_Power.state)
+	} else {
+		// Erstmal das Leistungsmaximum dieses Waschgangs ermitteln
+		if(Aktuelle_Leistung > Maximale_Leistung) {		
+			Maximale_Leistung = Aktuelle_Leistung
+			LM_Maximal.postUpdate(Maximale_Leistung)
+			logInfo("Waschkeller", "Maximale Leistung in diesem Waschgang: {}W.", Maximale_Leistung)
+		}
+	
+		// Ist die maximale Leistung sehr niedrig? Dann Maschine vmtl. programmiert!
+		// => Dann sollte auch ein evtl. vorhandener Timer entfernt werden!
+		if(Aktuelle_Leistung < 20.00) {
+			if(Maximale_Leistung < 50.00) {				
+				logInfo("Waschkeller", "Maschine ist programmiert und wartet auf Programmstart.")
+				LM_Zustand.postUpdate("... ist programmiert und wartet auf Programmstart!")
+				if(tWaschmaschine!=null) {
+					logInfo("Waschkeller", "Lösche Timer...")
+					tWaschmaschine.cancel
+					tWaschmaschine = null
+				}
+			} else {
+				// Bedeutet: Maximale_Leistung > 50.00, das Waschprogramm ist also zu Ende
+				if(tWaschmaschine!=null) {
+					logInfo("Waschkeller", "Timer läuft schon...")
+					LM_Zustand.postUpdate("... ist fertig, Timer läuft!")
+				} else {
+					logInfo("Waschkeller", "Setze nun Timer - auf 10min!")
+					tWaschmaschine = createTimer(now.plusSeconds(600)) [|
+						var Number Stunde = now.getHourOfDay
+						var Number Minute = now.getMinuteOfHour	
+						// pushNotification("Waschkeller", "Die Waschmaschine ist fertig!")
+						sendTweet("@sys_adm_ama Waschkeller meldet um " +Stunde +" Uhr und " +Minute +" Minuten: die Wäsche ist fertig!")
+						LM_Power.sendCommand(OFF)
+						LM_Zustand.postUpdate("... ist aus!")
+						if(now.getHourOfDay<18 && now.getHourOfDay>8) {
+							AlarmLED_Submit.sendCommand("1,4,60,34,2,34,2,34,2,34,2,34,2")
+						}
+					]}
+				}
+			} else {
+				// Signifikante Leistungsaufnahme, die Waschmaschine läuft gerade
+				// Sollte ein Timer laufen, muss er raus, damit die Maschine sich nicht mitten im Programm abschaltet!
+				logInfo("Waschkeller", "Die Waschmaschine läuft...")
+				LM_Zustand.postUpdate("... läuft gerade!")
+				if(tWaschmaschine!=null) {
+					logInfo("Waschkeller", "Lösche Timer...")
+					tWaschmaschine.cancel
+					tWaschmaschine	 = null
+			}
+		}		
+	}
+end
