@@ -1,0 +1,14 @@
+// rrd4j.persist / 20161116
+// Marianne Spiller <github@spiller.me>
+// openHAB-2.0.0-SNAPSHOT (Build 588)
+
+Strategies {
+	everyMinute	: "0 * * * * ?"
+	everyHour       : "0 0 * * * ?"
+	everyDay        : "0 0 0 * * ?"
+	default		= everyMinute
+}
+
+Items {
+	* : strategy = everyChange, everyMinute, restoreOnStartup
+}
