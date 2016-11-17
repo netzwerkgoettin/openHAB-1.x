@@ -1,0 +1,8 @@
+// Wetterstation.items / 20161117
+// Marianne Spiller <github@spiller.me>
+// openHAB-2.0.0-SNAPSHOT (Build 588)
+
+Switch	Wetter_Batterie		"Batteriestand niedrig"			<battery>	(gWetterstation)	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:0#LOWBAT" }
+String	Wetter_Signal		"Signalstärke [%s]"			<signal>	(gWetterstation)	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:0#RSSI_DEVICE" }
+Number	Wetter_Temperatur	"Außentemperatur [%.1f °C]"		<temperature>	(gWetterstation)	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:1#TEMPERATURE" }
+Number	Wetter_Luftfeuchtigkeit	"Luftfeuchtigkeit außen [%.1f %%]"	<humidity>	(gWetterstation)	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:1#HUMIDITY" }
