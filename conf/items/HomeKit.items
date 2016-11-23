@@ -1,0 +1,141 @@
+// HomeKit.items / 20161123
+// Marianne Spiller <github@spiller.me>
+// openHAB-2.0.0-SNAPSHOT (Build 608)
+
+Number	HK_Aussentemperatur
+	"Temperatur"
+	[ "CurrentTemperature" ]
+	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:1#TEMPERATURE" }
+
+Number	HK_Luftfeuchtigkeit
+	"Luftfeuchtigkeit"
+	[ "CurrentHumidity" ]
+	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:1#HUMIDITY" }
+
+//--------------------------------------------------------------------------------------------------------
+// Versuchen wir uns mal am Bad
+// Erstmal die Lichter
+Switch	HK_Bad_Deckenlicht
+	"Deckenlicht"
+	[ "Lighting" ]
+	{ channel="homematic:HM-LC-Sw4-DR:ccu2:LEQ0900581:1#STATE" }
+
+Dimmer	HK_Bad_Wandlicht
+	"Wandlicht"
+	[ "Lighting" ]
+	{ channel="homematic:HM-LC-Dim1T-FM:ccu2:MEQ0081533:1#LEVEL" }
+
+Switch	HK_Bad_Spiegelschrank
+	"Spiegelschrank"
+	[ "Lighting" ]
+	{ channel="homematic:HM-LC-Sw4-DR:ccu2:LEQ0900581:2#STATE" }
+	
+Switch	HK_Bad_Luefter
+	"Belüftung"
+	[ "Switchable" ]
+	{ channel="homematic:HM-LC-Sw4-DR:ccu2:LEQ0900581:3#STATE" }
+
+// Jetzt die Angaben vom Wandthermostat
+Number	HK_Bad_Temperatur
+	"Temperatur"
+	[ "CurrentTemperature" ]
+	{ channel="homematic:HM-TC-IT-WM-W-EU:ccu2:MEQ0091639:2#ACTUAL_TEMPERATURE" }
+
+Number	HK_Bad_Luftfeuchtigkeit
+	"Luftfeuchtigkeit"
+	[ "CurrentHumidity" ]
+	{ channel="homematic:HM-TC-IT-WM-W-EU:ccu2:MEQ0091639:2#ACTUAL_HUMIDITY" }
+
+// Fehlt noch die Fußbodenheizung
+Group	gHK_Bad_FBH		"Fußbodenheizung"	[ "Thermostat" ]
+	Number	HK_Bad_FBH_Temp
+		"Temperatur"
+		(gHK_Bad_FBH)
+		[ "CurrentTemperature" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:MEQ0060009:4#ACTUAL_TEMPERATURE" }
+	Number	HK_Bad_FBH_Setpoint
+		"Zieltemperatur"
+		(gHK_Bad_FBH)
+		[ "TargetTemperature" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:MEQ0060009:4#SET_TEMPERATURE" }
+	String	HK_Bad_HCM
+		"HCM"
+		(gHK_Bad_FBH)
+		[ "homekit:HeatingCoolingMode" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:MEQ0060009:4#CONTROL_MODE" }
+
+//--------------------------------------------------------------------------------------------------------
+// Schlafzimmer ELW
+Switch	HK_SchlaZi_Fenster
+	"Fenster"
+	[ "Switchable" ]
+	{ channel="homematic:HM-Sec-SC-2:ccu2:LEQ0409512:1#STATE" }
+
+Group	gHK_SchlaZi_H	"Heizung"	[ "Thermostat" ]
+	Number	HK_SchlaZi_H_Temp
+		"Temperatur"
+		(gHK_SchlaZi_H)
+		[ "CurrentTemperature" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ1287010:4#ACTUAL_TEMPERATURE" }
+	Number	HK_SchlaZi_H_Setpoint
+		"Zieltemperatur"
+		(gHK_SchlaZi_H)
+		[ "TargetTemperature" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ1287010:4#SET_TEMPERATURE" }
+	String	HK_SchlaZi_H_HCM
+		"HCM"
+		(gHK_SchlaZi_H)
+		[ "homekit:HeatingCoolingMode" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ1287010:4#CONTROL_MODE" }
+
+//--------------------------------------------------------------------------------------------------------
+// Badezimmer ELW
+Group	gHK_Bad_ELW_H	"Heizung"	[ "Thermostat" ]
+	Number	HK_Bad_ELW_H_Temp
+		"Temperatur"
+		(gHK_Bad_ELW_H)
+		[ "CurrentTemperature" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ1287006:4#ACTUAL_TEMPERATURE" }
+	Number	HK_Bad_ELW_H_Setpoint
+		"Zieltemperatur"
+		(gHK_Bad_ELW_H)
+		[ "TargetTemperature" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ1287006:4#SET_TEMPERATURE" }
+	String	HK_Bad_ELW_H_HCM
+		"HCM"
+		(gHK_Bad_ELW_H)
+		[ "homekit:HeatingCoolingMode" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ1287006:4#CONTROL_MODE" }
+
+//--------------------------------------------------------------------------------------------------------
+// Wohnraum ELW
+Group	gHK_WR_H	"Heizung"	[ "Thermostat" ]
+	Number	HK_WR_H_Temp
+		"Temperatur"
+		(gHK_WR_H)
+		[ "CurrentTemperature" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ0902402:4#ACTUAL_TEMPERATURE" }
+	Number	HK_WR_H_Setpoint
+		"Zieltemperatur"
+		(gHK_WR_H)
+		[ "TargetTemperature" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ0902402:4#SET_TEMPERATURE" }
+	String	HK_WR_H_HCM
+		"HCM"
+		(gHK_WR_H)
+		[ "homekit:HeatingCoolingMode" ]
+		{ channel="homematic:HM-CC-RT-DN:ccu2:LEQ0902402:4#CONTROL_MODE" }
+
+//--------------------------------------------------------------------------------------------------------
+// Wohnzimmer oben
+Switch	HK_Heimkino
+	"Heimkino"
+	[ "Switchable" ]
+	{ channel="homematic:HM-LC-Sw1-Pl-2:ccu2:LEQ0476658:1#STATE" }
+
+//--------------------------------------------------------------------------------------------------------
+// Waschkeller
+Switch	HK_Waschmaschine
+	"Waschmaschine"
+	[ "Switchable" ]
+	{ channel="homematic:HM-ES-PMSw1-Pl:ccu2:LEQ0273249:1#STATE" }

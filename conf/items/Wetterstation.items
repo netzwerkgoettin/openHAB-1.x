@@ -1,9 +1,27 @@
-// Wetterstation.items / 20161117
+// Wetterstation.items / 20161123
 // Marianne Spiller <github@spiller.me>
-// openHAB-2.0.0-SNAPSHOT (Build 588)
+// openHAB-2.0.0-SNAPSHOT (Build 608)
 
-Group	gWetterstation		"Wetterstation Terrasse"		<temperature>
-Switch	Wetter_Batterie		"Batteriestand niedrig"			<battery>	(gWetterstation)	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:0#LOWBAT" }
-String	Wetter_Signal		"Signalstärke [%s]"			<signal>	(gWetterstation)	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:0#RSSI_DEVICE" }
-Number	Wetter_Temperatur	"Außentemperatur [%.1f °C]"		<temperature>	(gWetterstation)	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:1#TEMPERATURE" }
-Number	Wetter_Luftfeuchtigkeit	"Luftfeuchtigkeit außen [%.1f %%]"	<humidity>	(gWetterstation)	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:1#HUMIDITY" }
+Switch	Wetter_Batterie
+	"Batteriestand niedrig"
+	<battery>
+	(gWetterstation)
+	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:0#LOWBAT" }
+
+String	Wetter_Signal
+	"Signalstärke [%s]"
+	<signal>
+	(gWetterstation)
+	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:0#RSSI_DEVICE" }
+
+Number	Wetter_Temperatur
+	"Außentemperatur [%.1f °C]"
+	<temperature>
+	(gWetterstation,gBadezimmer_1_Graph)
+	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:1#TEMPERATURE" }
+
+Number	Wetter_Luftfeuchtigkeit
+	"Luftfeuchtigkeit außen [%.1f %%]"
+	<humidity>
+	(gWetterstation,gBadezimmer_1_Graph)
+	{ channel="homematic:HM-WDS10-TH-O:ccu2:MEQ1600130:1#HUMIDITY" }
